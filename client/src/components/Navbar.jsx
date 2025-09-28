@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { useCart } from '../context/CartContext';
-import { 
-  ShoppingCart, 
-  User, 
-  LogOut, 
-  Settings, 
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
+import {
+  ShoppingCart,
+  User,
+  LogOut,
+  Settings,
   LayoutDashboard,
   Menu,
   X,
-  Globe
-} from 'lucide-react';
+  Globe,
+} from "lucide-react";
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -23,21 +23,21 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
     setIsProfileDropdownOpen(false);
   };
 
   const getDashboardPath = () => {
-    if (user?.role === 'admin') return '/admin';
-    if (user?.role === 'seller') return '/seller';
-    return '/user';
+    if (user?.role === "admin") return "/admin";
+    if (user?.role === "seller") return "/seller";
+    return "/user";
   };
 
   const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'es', name: 'Español' },
-    { code: 'fr', name: 'Français' },
-    { code: 'de', name: 'Deutsch' }
+    { code: "en", name: "English" },
+    { code: "es", name: "Español" },
+    { code: "fr", name: "Français" },
+    { code: "de", name: "Deutsch" },
   ];
 
   return (
@@ -50,28 +50,30 @@ const Navbar = () => {
               <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">M</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">MedicineVendor</span>
+              <span className="text-xl font-bold text-gray-900">
+                MedicineVendor
+              </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
               Home
             </Link>
-            <Link 
-              to="/shop" 
+            <Link
+              to="/shop"
               className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
               Shop
             </Link>
-            
+
             {/* Cart Icon */}
-            <Link 
-              to="/cart" 
+            <Link
+              to="/cart"
               className="relative text-gray-700 hover:text-primary-600 p-2 rounded-md transition-colors"
             >
               <ShoppingCart className="w-6 h-6" />
@@ -85,13 +87,15 @@ const Navbar = () => {
             {/* Language Dropdown */}
             <div className="relative">
               <button
-                onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+                onClick={() =>
+                  setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
+                }
                 className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
                 <Globe className="w-4 h-4" />
                 <span>EN</span>
               </button>
-              
+
               {isLanguageDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                   {languages.map((lang) => (
@@ -111,16 +115,18 @@ const Navbar = () => {
             {isAuthenticated ? (
               <div className="relative">
                 <button
-                  onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                  onClick={() =>
+                    setIsProfileDropdownOpen(!isProfileDropdownOpen)
+                  }
                   className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
-                  <img 
-                    src={user?.photo || 'https://via.placeholder.com/32'} 
-                    alt="Profile" 
+                  <img
+                    src={user?.photo || "https://via.placeholder.com/32"}
+                    alt="Profile"
                     className="w-8 h-8 rounded-full"
                   />
                 </button>
-                
+
                 {isProfileDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                     <Link
@@ -165,7 +171,11 @@ const Navbar = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-700 hover:text-primary-600 p-2"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -196,7 +206,7 @@ const Navbar = () => {
                 <ShoppingCart className="w-5 h-5" />
                 <span>Cart ({getCartItemsCount()})</span>
               </Link>
-              
+
               {isAuthenticated ? (
                 <>
                   <Link

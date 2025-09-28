@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const CartContext = createContext();
 
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };
@@ -15,7 +15,7 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     // Load cart from localStorage
-    const savedCart = localStorage.getItem('cart');
+    const savedCart = localStorage.getItem("cart");
     if (savedCart) {
       setCartItems(JSON.parse(savedCart));
     }
@@ -23,35 +23,40 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     // Save cart to localStorage whenever it changes
-    localStorage.setItem('cart', JSON.stringify(cartItems));
+    localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (medicine) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.medicineId === medicine.id);
-      
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find(
+        (item) => item.medicineId === medicine.id
+      );
+
       if (existingItem) {
-        return prevItems.map(item =>
+        return prevItems.map((item) =>
           item.medicineId === medicine.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       } else {
-        return [...prevItems, {
-          id: Date.now().toString(),
-          medicineId: medicine.id,
-          medicineName: medicine.name,
-          company: medicine.company,
-          price: medicine.perUnitPrice,
-          quantity: 1,
-          image: medicine.image
-        }];
+        return [
+          ...prevItems,
+          {
+            id: Date.now().toString(),
+            medicineId: medicine.id,
+            medicineName: medicine.name,
+            company: medicine.company,
+            price: medicine.perUnitPrice,
+            quantity: 1,
+            image: medicine.image,
+          },
+        ];
       }
     });
   };
 
   const removeFromCart = (itemId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   };
 
   const updateQuantity = (itemId, newQuantity) => {
@@ -59,9 +64,9 @@ export const CartProvider = ({ children }) => {
       removeFromCart(itemId);
       return;
     }
-    
-    setCartItems(prevItems =>
-      prevItems.map(item =>
+
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
         item.id === itemId ? { ...item, quantity: newQuantity } : item
       )
     );
@@ -72,7 +77,10 @@ export const CartProvider = ({ children }) => {
   };
 
   const getCartTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
   };
 
   const getCartItemsCount = () => {
@@ -86,12 +94,8 @@ export const CartProvider = ({ children }) => {
     updateQuantity,
     clearCart,
     getCartTotal,
-    getCartItemsCount
+    getCartItemsCount,
   };
 
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

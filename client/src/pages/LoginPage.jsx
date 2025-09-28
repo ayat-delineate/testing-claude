@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { Helmet } from 'react-helmet-async';
-import { useAuth } from '../context/AuthContext';
-import { Eye, EyeOff, Github, Chrome } from 'lucide-react';
-import Swal from 'sweetalert2';
+import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet-async";
+import { useAuth } from "../context/AuthContext";
+import { Eye, EyeOff, Github, Chrome } from "lucide-react";
+import Swal from "sweetalert2";
 
 const LoginPage = () => {
   const { login, loading } = useAuth();
@@ -16,39 +16,39 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from?.pathname || "/";
 
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
       const result = await login(data.email, data.password);
-      
+
       if (result.success) {
         await Swal.fire({
-          icon: 'success',
-          title: 'Login Successful!',
+          icon: "success",
+          title: "Login Successful!",
           text: `Welcome back, ${result.user.username}!`,
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
         navigate(from, { replace: true });
       } else {
         await Swal.fire({
-          icon: 'error',
-          title: 'Login Failed',
+          icon: "error",
+          title: "Login Failed",
           text: result.error,
-          confirmButtonText: 'Try Again'
+          confirmButtonText: "Try Again",
         });
       }
     } catch (err) {
       await Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'An unexpected error occurred. Please try again.',
-        confirmButtonText: 'OK'
+        icon: "error",
+        title: "Error",
+        text: "An unexpected error occurred. Please try again.",
+        confirmButtonText: "OK",
       });
     } finally {
       setIsLoading(false);
@@ -59,24 +59,24 @@ const LoginPage = () => {
     setIsLoading(true);
     try {
       // Simulate social login
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       await Swal.fire({
-        icon: 'success',
+        icon: "success",
         title: `${provider} Login Successful!`,
-        text: 'You have been logged in successfully.',
+        text: "You have been logged in successfully.",
         timer: 2000,
-        showConfirmButton: false
+        showConfirmButton: false,
       });
-      
+
       // In real implementation, this would handle the social login response
       navigate(from, { replace: true });
     } catch (err) {
       await Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
+        icon: "error",
+        title: "Login Failed",
         text: `Failed to login with ${provider}. Please try again.`,
-        confirmButtonText: 'OK'
+        confirmButtonText: "OK",
       });
     } finally {
       setIsLoading(false);
@@ -87,9 +87,12 @@ const LoginPage = () => {
     <>
       <Helmet>
         <title>Login - MedicineVendor</title>
-        <meta name="description" content="Login to your MedicineVendor account" />
+        <meta
+          name="description"
+          content="Login to your MedicineVendor account"
+        />
       </Helmet>
-      
+
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
@@ -100,7 +103,7 @@ const LoginPage = () => {
               Sign in to your account
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-              Or{' '}
+              Or{" "}
               <Link
                 to="/signup"
                 className="font-medium text-primary-600 hover:text-primary-500"
@@ -109,44 +112,52 @@ const LoginPage = () => {
               </Link>
             </p>
           </div>
-          
+
           <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-4">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Email address
                 </label>
                 <input
-                  {...register('email', {
-                    required: 'Email is required',
+                  {...register("email", {
+                    required: "Email is required",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'Invalid email address'
-                    }
+                      message: "Invalid email address",
+                    },
                   })}
                   type="email"
                   className="input-field mt-1"
                   placeholder="Enter your email"
                 />
                 {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
-              
+
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Password
                 </label>
                 <div className="relative mt-1">
                   <input
-                    {...register('password', {
-                      required: 'Password is required',
+                    {...register("password", {
+                      required: "Password is required",
                       minLength: {
                         value: 6,
-                        message: 'Password must be at least 6 characters'
-                      }
+                        message: "Password must be at least 6 characters",
+                      },
                     })}
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     className="input-field pr-10"
                     placeholder="Enter your password"
                   />
@@ -163,7 +174,9 @@ const LoginPage = () => {
                   </button>
                 </div>
                 {errors.password && (
-                  <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -176,13 +189,19 @@ const LoginPage = () => {
                   type="checkbox"
                   className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-gray-900"
+                >
                   Remember me
                 </label>
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
+                <a
+                  href="#"
+                  className="font-medium text-primary-600 hover:text-primary-500"
+                >
                   Forgot your password?
                 </a>
               </div>
@@ -200,7 +219,7 @@ const LoginPage = () => {
                     Signing in...
                   </div>
                 ) : (
-                  'Sign in'
+                  "Sign in"
                 )}
               </button>
             </div>
@@ -211,14 +230,16 @@ const LoginPage = () => {
                   <div className="w-full border-t border-gray-300" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-gray-50 text-gray-500">Or continue with</span>
+                  <span className="px-2 bg-gray-50 text-gray-500">
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <button
                   type="button"
-                  onClick={() => handleSocialLogin('Google')}
+                  onClick={() => handleSocialLogin("Google")}
                   disabled={isLoading}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                 >
@@ -228,7 +249,7 @@ const LoginPage = () => {
 
                 <button
                   type="button"
-                  onClick={() => handleSocialLogin('GitHub')}
+                  onClick={() => handleSocialLogin("GitHub")}
                   disabled={isLoading}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                 >
@@ -241,11 +262,19 @@ const LoginPage = () => {
 
           {/* Demo Credentials */}
           <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-            <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials:</h3>
+            <h3 className="text-sm font-medium text-blue-800 mb-2">
+              Demo Credentials:
+            </h3>
             <div className="text-xs text-blue-700 space-y-1">
-              <p><strong>Admin:</strong> admin@medicinevendor.com / admin123</p>
-              <p><strong>Seller:</strong> seller@medicinevendor.com / seller123</p>
-              <p><strong>User:</strong> user@medicinevendor.com / user123</p>
+              <p>
+                <strong>Admin:</strong> admin@medicinevendor.com / admin123
+              </p>
+              <p>
+                <strong>Seller:</strong> seller@medicinevendor.com / seller123
+              </p>
+              <p>
+                <strong>User:</strong> user@medicinevendor.com / user123
+              </p>
             </div>
           </div>
         </div>

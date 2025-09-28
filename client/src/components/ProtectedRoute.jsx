@@ -1,6 +1,6 @@
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const { user, isAuthenticated } = useAuth();
@@ -13,8 +13,12 @@ const ProtectedRoute = ({ children, requiredRole }) => {
 
   if (requiredRole && user?.role !== requiredRole) {
     // Redirect to appropriate dashboard based on user role
-    const dashboardPath = user?.role === 'admin' ? '/admin' : 
-                         user?.role === 'seller' ? '/seller' : '/user';
+    const dashboardPath =
+      user?.role === "admin"
+        ? "/admin"
+        : user?.role === "seller"
+        ? "/seller"
+        : "/user";
     return <Navigate to={dashboardPath} replace />;
   }
 
