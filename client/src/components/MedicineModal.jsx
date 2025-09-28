@@ -1,7 +1,14 @@
-import React from 'react';
-import { X, ShoppingCart, Package, Building, DollarSign, Percent } from 'lucide-react';
-import { useCart } from '../context/CartContext';
-import Swal from 'sweetalert2';
+import React from "react";
+import {
+  X,
+  ShoppingCart,
+  Package,
+  Building,
+  DollarSign,
+  Percent,
+} from "lucide-react";
+import { useCart } from "../context/CartContext";
+import Swal from "sweetalert2";
 
 const MedicineModal = ({ medicine, isOpen, onClose }) => {
   const { addToCart } = useCart();
@@ -11,20 +18,23 @@ const MedicineModal = ({ medicine, isOpen, onClose }) => {
   const handleAddToCart = () => {
     addToCart(medicine);
     Swal.fire({
-      icon: 'success',
-      title: 'Added to Cart!',
+      icon: "success",
+      title: "Added to Cart!",
       text: `${medicine.name} has been added to your cart`,
       timer: 2000,
       showConfirmButton: false,
       toast: true,
-      position: 'top-end'
+      position: "top-end",
     });
     onClose();
   };
 
   const calculateDiscountedPrice = () => {
     if (medicine.discountPercentage > 0) {
-      return medicine.perUnitPrice - (medicine.perUnitPrice * medicine.discountPercentage / 100);
+      return (
+        medicine.perUnitPrice -
+        (medicine.perUnitPrice * medicine.discountPercentage) / 100
+      );
     }
     return medicine.perUnitPrice;
   };
@@ -53,7 +63,7 @@ const MedicineModal = ({ medicine, isOpen, onClose }) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              
+
               {medicine.discountPercentage > 0 && (
                 <div className="flex items-center space-x-2">
                   <Percent className="w-5 h-5 text-red-500" />
@@ -93,7 +103,9 @@ const MedicineModal = ({ medicine, isOpen, onClose }) => {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-gray-600">Per {medicine.massUnit}</p>
+                    <p className="text-sm text-gray-600">
+                      Per {medicine.massUnit}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -104,7 +116,9 @@ const MedicineModal = ({ medicine, isOpen, onClose }) => {
                   <Package className="w-5 h-5 text-gray-500" />
                   <div>
                     <span className="text-sm text-gray-600">Category:</span>
-                    <span className="ml-2 font-medium">{medicine.category}</span>
+                    <span className="ml-2 font-medium">
+                      {medicine.category}
+                    </span>
                   </div>
                 </div>
 
@@ -120,8 +134,18 @@ const MedicineModal = ({ medicine, isOpen, onClose }) => {
                   <Package className="w-5 h-5 text-gray-500" />
                   <div>
                     <span className="text-sm text-gray-600">Stock:</span>
-                    <span className={`ml-2 font-medium ${medicine.stock > 10 ? 'text-green-600' : medicine.stock > 0 ? 'text-yellow-600' : 'text-red-600'}`}>
-                      {medicine.stock > 0 ? `${medicine.stock} available` : 'Out of stock'}
+                    <span
+                      className={`ml-2 font-medium ${
+                        medicine.stock > 10
+                          ? "text-green-600"
+                          : medicine.stock > 0
+                          ? "text-yellow-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {medicine.stock > 0
+                        ? `${medicine.stock} available`
+                        : "Out of stock"}
                     </span>
                   </div>
                 </div>
@@ -135,7 +159,9 @@ const MedicineModal = ({ medicine, isOpen, onClose }) => {
                   className="flex-1 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
                 >
                   <ShoppingCart className="w-5 h-5" />
-                  <span>{medicine.stock === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
+                  <span>
+                    {medicine.stock === 0 ? "Out of Stock" : "Add to Cart"}
+                  </span>
                 </button>
               </div>
 
@@ -151,7 +177,8 @@ const MedicineModal = ({ medicine, isOpen, onClose }) => {
               {medicine.stock === 0 && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-3">
                   <p className="text-red-800 text-sm">
-                    ❌ This medicine is currently out of stock. Please check back later.
+                    ❌ This medicine is currently out of stock. Please check
+                    back later.
                   </p>
                 </div>
               )}
