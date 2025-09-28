@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { mockUsers } from "../data/mockData";
+import { authAPI } from "../services/api";
 
 const AuthContext = createContext();
 
@@ -27,78 +27,68 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await authAPI.login({ email, password });
+      const { token, user } = response.data;
 
-    // Find user in mock data
-    const foundUser = mockUsers.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (foundUser) {
-      const userData = { ...foundUser };
-      delete userData.password; // Remove password from stored data
-
-      setUser(userData);
-      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(user);
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
       setLoading(false);
-      return { success: true, user: userData };
-    } else {
+
+      return { success: true, user };
+    } catch (error) {
       setLoading(false);
-      return { success: false, error: "Invalid email or password" };
+      const errorMessage = error.response?.data?.message || "Login failed";
+      return { success: false, error: errorMessage };
     }
   };
 
   const signup = async (userData) => {
     setLoading(true);
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await authAPI.register(userData);
+      const { token, user } = response.data;
 
-    // Check if user already exists
-    const existingUser = mockUsers.find((u) => u.email === userData.email);
-    if (existingUser) {
+      setUser(user);
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
       setLoading(false);
-      return { success: false, error: "User already exists with this email" };
+
+      return { success: true, user };
+    } catch (error) {
+      setLoading(false);
+      const errorMessage =
+        error.response?.data?.message || "Registration failed";
+      return { success: false, error: errorMessage };
     }
-
-    // Create new user
-    const newUser = {
-      id: Date.now().toString(),
-      ...userData,
-      createdAt: new Date(),
-    };
-
-    // Add to mock users (in real app, this would be sent to API)
-    mockUsers.push(newUser);
-
-    const userWithoutPassword = { ...newUser };
-    delete userWithoutPassword.password;
-
-    setUser(userWithoutPassword);
-    localStorage.setItem("user", JSON.stringify(userWithoutPassword));
-    setLoading(false);
-
-    return { success: true, user: userWithoutPassword };
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   const updateProfile = async (updatedData) => {
     setLoading(true);
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await authAPI.updateProfile(updatedData);
+      const updatedUser = response.data;
 
-    const updatedUser = { ...user, ...updatedData };
-    setUser(updatedUser);
-    localStorage.setItem("user", JSON.stringify(updatedUser));
-    setLoading(false);
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setLoading(false);
 
-    return { success: true, user: updatedUser };
+      return { success: true, user: updatedUser };
+    } catch (error) {
+      setLoading(false);
+      const errorMessage =
+        error.response?.data?.message || "Profile update failed";
+      return { success: false, error: errorMessage };
+    }
   };
 
   const value = {

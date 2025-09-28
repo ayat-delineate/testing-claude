@@ -1,69 +1,70 @@
-import React, { useState, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useQuery } from '@tanstack/react-query';
-import Navbar from '../components/Navbar';
-import MedicineModal from '../components/MedicineModal';
-import { mockMedicines } from '../data/mockData';
-import { 
-  Search, 
-  Filter, 
-  Eye, 
-  ShoppingCart, 
-  ChevronLeft, 
+import React, { useState, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+// Removed useQuery import - now using custom hook
+import Navbar from "../components/Navbar";
+import MedicineModal from "../components/MedicineModal";
+import { useMedicines } from "../hooks/useApi";
+import {
+  Search,
+  Filter,
+  Eye,
+  ShoppingCart,
+  ChevronLeft,
   ChevronRight,
   ArrowUpDown,
-  Package
-} from 'lucide-react';
-import { useCart } from '../context/CartContext';
-import Swal from 'sweetalert2';
+  Package,
+} from "lucide-react";
+import { useCart } from "../context/CartContext";
+import Swal from "sweetalert2";
 
 const ShopPage = () => {
   const { addToCart } = useCart();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('name');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("name");
+  const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMedicine, setSelectedMedicine] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const itemsPerPage = 10;
 
-  // Simulate API call with TanStack Query
-  const { data: medicines = [], isLoading } = useQuery({
-    queryKey: ['medicines'],
-    queryFn: async () => {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      return mockMedicines;
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
+  // Use real API call with TanStack Query
+  const { data: medicinesResponse, isLoading, error } = useMedicines({
+    page: currentPage,
+    limit: itemsPerPage,
+    search: searchTerm,
+    sortBy,
+    sortOrder
   });
 
   // Filter and sort medicines
   const filteredAndSortedMedicines = useMemo(() => {
-    let filtered = medicines.filter(medicine =>
-      medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      medicine.genericName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      medicine.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      medicine.category.toLowerCase().includes(searchTerm.toLowerCase())
+    const medicines = medicinesResponse?.data?.medicines || [];
+    
+    let filtered = medicines.filter(
+      (medicine) =>
+        medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        medicine.genericName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        medicine.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        medicine.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     // Sort medicines
     filtered.sort((a, b) => {
       let aValue, bValue;
-      
+
       switch (sortBy) {
-        case 'price':
+        case "price":
           aValue = a.perUnitPrice;
           bValue = b.perUnitPrice;
           break;
-        case 'name':
+        case "name":
         default:
           aValue = a.name.toLowerCase();
           bValue = b.name.toLowerCase();
           break;
       }
 
-      if (sortOrder === 'asc') {
+      if (sortOrder === "asc") {
         return aValue > bValue ? 1 : -1;
       } else {
         return aValue < bValue ? 1 : -1;
@@ -71,20 +72,25 @@ const ShopPage = () => {
     });
 
     return filtered;
-  }, [medicines, searchTerm, sortBy, sortOrder]);
+  }, [medicinesResponse, searchTerm, sortBy, sortOrder]);
 
   // Pagination
-  const totalPages = Math.ceil(filteredAndSortedMedicines.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    filteredAndSortedMedicines.length / itemsPerPage
+  );
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentMedicines = filteredAndSortedMedicines.slice(startIndex, endIndex);
+  const currentMedicines = filteredAndSortedMedicines.slice(
+    startIndex,
+    endIndex
+  );
 
   const handleSort = (field) => {
     if (sortBy === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
       setSortBy(field);
-      setSortOrder('asc');
+      setSortOrder("asc");
     }
   };
 
@@ -96,19 +102,19 @@ const ShopPage = () => {
   const handleAddToCart = (medicine) => {
     addToCart(medicine);
     Swal.fire({
-      icon: 'success',
-      title: 'Added to Cart!',
+      icon: "success",
+      title: "Added to Cart!",
       text: `${medicine.name} has been added to your cart`,
       timer: 2000,
       showConfirmButton: false,
       toast: true,
-      position: 'top-end'
+      position: "top-end",
     });
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (isLoading) {
@@ -116,9 +122,12 @@ const ShopPage = () => {
       <>
         <Helmet>
           <title>Shop - MedicineVendor</title>
-          <meta name="description" content="Browse our wide selection of medicines and healthcare products" />
+          <meta
+            name="description"
+            content="Browse our wide selection of medicines and healthcare products"
+          />
         </Helmet>
-        
+
         <div className="min-h-screen bg-gray-50">
           <Navbar />
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -131,20 +140,55 @@ const ShopPage = () => {
     );
   }
 
+  if (error) {
+    return (
+      <>
+        <Helmet>
+          <title>Shop - MedicineVendor</title>
+          <meta
+            name="description"
+            content="Browse our wide selection of medicines and healthcare products"
+          />
+        </Helmet>
+
+        <div className="min-h-screen bg-gray-50">
+          <Navbar />
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="text-center py-16">
+              <Package className="w-16 h-16 text-red-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                Error loading medicines
+              </h3>
+              <p className="text-gray-600">
+                {error.message || "Failed to load medicines. Please try again later."}
+              </p>
+            </div>
+          </main>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet>
         <title>Shop - MedicineVendor</title>
-        <meta name="description" content="Browse our wide selection of medicines and healthcare products" />
+        <meta
+          name="description"
+          content="Browse our wide selection of medicines and healthcare products"
+        />
       </Helmet>
-      
+
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Shop Medicines</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Shop Medicines
+            </h1>
             <p className="text-gray-600">
-              Browse our comprehensive collection of quality medicines and healthcare products
+              Browse our comprehensive collection of quality medicines and
+              healthcare products
             </p>
           </div>
 
@@ -161,27 +205,27 @@ const ShopPage = () => {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
-              
+
               <div className="flex items-center space-x-2">
                 <Filter className="w-5 h-5 text-gray-500" />
                 <span className="text-sm text-gray-600">Sort by:</span>
                 <button
-                  onClick={() => handleSort('name')}
+                  onClick={() => handleSort("name")}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    sortBy === 'name' 
-                      ? 'bg-primary-100 text-primary-700' 
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    sortBy === "name"
+                      ? "bg-primary-100 text-primary-700"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   <span>Name</span>
                   <ArrowUpDown className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={() => handleSort('price')}
+                  onClick={() => handleSort("price")}
                   className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    sortBy === 'price' 
-                      ? 'bg-primary-100 text-primary-700' 
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    sortBy === "price"
+                      ? "bg-primary-100 text-primary-700"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   <span>Price</span>
@@ -194,7 +238,9 @@ const ShopPage = () => {
           {/* Results Summary */}
           <div className="mb-6">
             <p className="text-gray-600">
-              Showing {startIndex + 1}-{Math.min(endIndex, filteredAndSortedMedicines.length)} of {filteredAndSortedMedicines.length} medicines
+              Showing {startIndex + 1}-
+              {Math.min(endIndex, filteredAndSortedMedicines.length)} of{" "}
+              {filteredAndSortedMedicines.length} medicines
             </p>
           </div>
 
@@ -263,14 +309,18 @@ const ShopPage = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          medicine.stock > 10 
-                            ? 'bg-green-100 text-green-800' 
-                            : medicine.stock > 0 
-                            ? 'bg-yellow-100 text-yellow-800' 
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {medicine.stock > 0 ? `${medicine.stock} left` : 'Out of stock'}
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            medicine.stock > 10
+                              ? "bg-green-100 text-green-800"
+                              : medicine.stock > 0
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {medicine.stock > 0
+                            ? `${medicine.stock} left`
+                            : "Out of stock"}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -313,21 +363,23 @@ const ShopPage = () => {
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium ${
-                      currentPage === page
-                        ? 'bg-primary-600 text-white'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
-                
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium ${
+                        currentPage === page
+                          ? "bg-primary-600 text-white"
+                          : "text-gray-700 hover:bg-gray-100"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
+
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
@@ -343,9 +395,12 @@ const ShopPage = () => {
           {filteredAndSortedMedicines.length === 0 && (
             <div className="text-center py-16">
               <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No medicines found</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                No medicines found
+              </h3>
               <p className="text-gray-600">
-                Try adjusting your search terms or filters to find what you're looking for.
+                Try adjusting your search terms or filters to find what you're
+                looking for.
               </p>
             </div>
           )}

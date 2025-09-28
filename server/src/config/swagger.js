@@ -214,17 +214,126 @@ const options = {
                             type: 'string',
                             example: 'Pain relief medicine',
                         },
+                        category: {
+                            type: 'string',
+                            example: '507f1f77bcf86cd799439011',
+                        },
+                        company: {
+                            type: 'string',
+                            example: 'PharmaCorp',
+                        },
                         perUnitPrice: {
                             type: 'number',
                             example: 12.99,
+                        },
+                        discountPercentage: {
+                            type: 'number',
+                            example: 10,
                         },
                         stock: {
                             type: 'number',
                             example: 100,
                         },
+                        massUnit: {
+                            type: 'string',
+                            example: 'tablet',
+                        },
+                        image: {
+                            type: 'string',
+                            example: 'https://example.com/medicine.jpg',
+                        },
+                        prescriptionRequired: {
+                            type: 'boolean',
+                            example: false,
+                        },
+                        expiryDate: {
+                            type: 'string',
+                            format: 'date',
+                            example: '2025-12-31',
+                        },
+                        batchNumber: {
+                            type: 'string',
+                            example: 'BATCH001',
+                        },
                         isActive: {
                             type: 'boolean',
                             example: true,
+                        },
+                        isFeatured: {
+                            type: 'boolean',
+                            example: false,
+                        },
+                        tags: {
+                            type: 'array',
+                            items: {
+                                type: 'string',
+                            },
+                            example: ['pain relief', 'fever'],
+                        },
+                        createdBy: {
+                            type: 'string',
+                            example: '507f1f77bcf86cd799439011',
+                        },
+                        updatedBy: {
+                            type: 'string',
+                            example: '507f1f77bcf86cd799439011',
+                        },
+                        createdAt: {
+                            type: 'string',
+                            format: 'date-time',
+                        },
+                        updatedAt: {
+                            type: 'string',
+                            format: 'date-time',
+                        },
+                    },
+                },
+                Category: {
+                    type: 'object',
+                    properties: {
+                        _id: {
+                            type: 'string',
+                            example: '507f1f77bcf86cd799439011',
+                        },
+                        name: {
+                            type: 'string',
+                            example: 'Tablets',
+                        },
+                        description: {
+                            type: 'string',
+                            example: 'Oral solid dosage forms',
+                        },
+                        image: {
+                            type: 'string',
+                            example: 'https://example.com/category.jpg',
+                        },
+                        icon: {
+                            type: 'string',
+                            example: 'Package',
+                        },
+                        medicineCount: {
+                            type: 'number',
+                            example: 50,
+                        },
+                        isActive: {
+                            type: 'boolean',
+                            example: true,
+                        },
+                        sortOrder: {
+                            type: 'number',
+                            example: 1,
+                        },
+                        createdBy: {
+                            type: 'string',
+                            example: '507f1f77bcf86cd799439011',
+                        },
+                        createdAt: {
+                            type: 'string',
+                            format: 'date-time',
+                        },
+                        updatedAt: {
+                            type: 'string',
+                            format: 'date-time',
                         },
                     },
                 },
