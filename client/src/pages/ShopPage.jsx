@@ -1,81 +1,31 @@
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Navbar from "../components/Navbar";
 import MedicineModal from "../components/MedicineModal";
 import SearchBar from "../components/ShopPage/SearchBar";
-import MedicineTable from "../components/ShopPage/MedicineTable";
+import MedicineDataProvider from "../components/ShopPage/MedicineDataProvider";
 import Pagination from "../components/ShopPage/Pagination";
-import LoadingSpinner from "../components/ShopPage/LoadingSpinner";
-import ErrorDisplay from "../components/ShopPage/ErrorDisplay";
-import { useMedicines } from "../hooks/useApi";
 import { useShopSearchParams } from "../hooks/useSearchParams";
 
 const ShopPage = () => {
   const { params, setSearch, setSort, setPage } = useShopSearchParams();
   const [selectedMedicine, setSelectedMedicine] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const itemsPerPage = 10;
-
-  // Use real API call with TanStack Query
-  const {
-    data: medicinesResponse,
-    isLoading,
-    error,
-    refetch,
-  } = useMedicines({
-    page: params.page,
-    limit: itemsPerPage,
-    search: params.search,
-    sortBy: params.sortBy,
-    sortOrder: params.sortOrder,
+  const [paginationData, setPaginationData] = useState({
+    totalPages: 1,
+    totalItems: 0,
+    startIndex: 0,
+    endIndex: 10,
   });
-
-  // Extract medicines and pagination data
-  const medicines = medicinesResponse?.data?.data?.medicines || [];
-  const pagination = medicinesResponse?.data?.data?.pagination || {};
-  const totalPages = pagination.pages || 1;
-  const totalItems = pagination.total || medicines.length;
-
-  // Pagination calculations
-  const startIndex = (params.page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
 
   const handleViewMedicine = (medicine) => {
     setSelectedMedicine(medicine);
     setIsModalOpen(true);
   };
 
-  if (isLoading) {
-    return (
-      <>
-        <Helmet>
-          <title>Shop - MedicineVendor</title>
-          <meta
-            name="description"
-            content="Browse our wide selection of medicines and healthcare products"
-          />
-        </Helmet>
-        <Navbar />
-        <LoadingSpinner />
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <Helmet>
-          <title>Shop - MedicineVendor</title>
-          <meta
-            name="description"
-            content="Browse our wide selection of medicines and healthcare products"
-          />
-        </Helmet>
-        <Navbar />
-        <ErrorDisplay error={error} onRetry={refetch} />
-      </>
-    );
-  }
+  const handleDataLoaded = (data) => {
+    setPaginationData(data);
+  };
 
   return (
     <>
@@ -108,20 +58,19 @@ const ShopPage = () => {
             onSort={setSort}
           />
 
-          <Suspense fallback={<LoadingSpinner />}>
-            <MedicineTable
-              medicines={medicines}
-              onViewMedicine={handleViewMedicine}
-            />
-          </Suspense>
+          <MedicineDataProvider
+            searchParams={params}
+            onViewMedicine={handleViewMedicine}
+            onDataLoaded={handleDataLoaded}
+          />
 
           <Pagination
             currentPage={params.page}
-            totalPages={totalPages}
+            totalPages={paginationData.totalPages}
             onPageChange={setPage}
-            startIndex={startIndex}
-            endIndex={endIndex}
-            totalItems={totalItems}
+            startIndex={paginationData.startIndex}
+            endIndex={paginationData.endIndex}
+            totalItems={paginationData.totalItems}
           />
         </main>
 
