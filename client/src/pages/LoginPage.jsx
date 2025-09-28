@@ -30,7 +30,7 @@ const LoginPage = () => {
         await Swal.fire({
           icon: "success",
           title: "Login Successful!",
-          text: `Welcome back, ${result.user.username}!`,
+          text: `Welcome back, ${result.user.name}!`,
           timer: 2000,
           showConfirmButton: false,
         });
@@ -56,31 +56,12 @@ const LoginPage = () => {
   };
 
   const handleSocialLogin = async (provider) => {
-    setIsLoading(true);
-    try {
-      // Simulate social login
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      await Swal.fire({
-        icon: "success",
-        title: `${provider} Login Successful!`,
-        text: "You have been logged in successfully.",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-
-      // In real implementation, this would handle the social login response
-      navigate(from, { replace: true });
-    } catch (err) {
-      await Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        text: `Failed to login with ${provider}. Please try again.`,
-        confirmButtonText: "OK",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    await Swal.fire({
+      icon: "info",
+      title: "Coming Soon",
+      text: `${provider} login is not implemented yet. Please use the regular login form.`,
+      confirmButtonText: "OK",
+    });
   };
 
   return (

@@ -25,15 +25,10 @@ const SignupPage = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      // Handle photo upload
-      const formData = new FormData();
-      if (selectedPhoto) {
-        formData.append('photo', selectedPhoto);
-      }
-
+      // Prepare user data (photo will be handled separately if needed)
       const userData = {
         ...data,
-        photo: selectedPhoto ? URL.createObjectURL(selectedPhoto) : 'https://via.placeholder.com/150'
+        avatar: selectedPhoto ? URL.createObjectURL(selectedPhoto) : null
       };
 
       const result = await signup(userData);
@@ -42,7 +37,7 @@ const SignupPage = () => {
         await Swal.fire({
           icon: 'success',
           title: 'Registration Successful!',
-          text: `Welcome to MedicineVendor, ${result.user.username}!`,
+          text: `Welcome to MedicineVendor, ${result.user.name}!`,
           timer: 2000,
           showConfirmButton: false
         });
@@ -68,30 +63,12 @@ const SignupPage = () => {
   };
 
   const handleSocialSignup = async (provider) => {
-    setIsLoading(true);
-    try {
-      // Simulate social signup
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      await Swal.fire({
-        icon: 'success',
-        title: `${provider} Registration Successful!`,
-        text: 'Your account has been created successfully.',
-        timer: 2000,
-        showConfirmButton: false
-      });
-      
-      navigate('/');
-    } catch (err) {
-      await Swal.fire({
-        icon: 'error',
-        title: 'Registration Failed',
-        text: `Failed to register with ${provider}. Please try again.`,
-        confirmButtonText: 'OK'
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    await Swal.fire({
+      icon: 'info',
+      title: 'Coming Soon',
+      text: `${provider} signup is not implemented yet. Please use the regular signup form.`,
+      confirmButtonText: 'OK'
+    });
   };
 
   const handlePhotoChange = (e) => {
@@ -131,23 +108,23 @@ const SignupPage = () => {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-4">
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                  Username
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  Full Name
                 </label>
                 <input
-                  {...register('username', {
-                    required: 'Username is required',
+                  {...register('name', {
+                    required: 'Full name is required',
                     minLength: {
-                      value: 3,
-                      message: 'Username must be at least 3 characters'
+                      value: 2,
+                      message: 'Name must be at least 2 characters'
                     }
                   })}
                   type="text"
                   className="input-field mt-1"
-                  placeholder="Enter your username"
+                  placeholder="Enter your full name"
                 />
-                {errors.username && (
-                  <p className="mt-1 text-sm text-red-600">{errors.username.message}</p>
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
                 )}
               </div>
 
