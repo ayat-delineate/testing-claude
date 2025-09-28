@@ -176,7 +176,7 @@ const createAdminUser = async () => {
 };
 
 // Create categories
-const createCategories = async () => {
+const createCategories = async (adminUser) => {
     try {
         const categories = [];
 
@@ -184,7 +184,10 @@ const createCategories = async () => {
             let category = await Category.findOne({ name: categoryData.name });
 
             if (!category) {
-                category = new Category(categoryData);
+                category = new Category({
+                    ...categoryData,
+                    createdBy: adminUser._id
+                });
                 await category.save();
                 console.log(`✅ Created category: ${categoryData.name}`);
             } else {
@@ -242,7 +245,7 @@ const seedDatabase = async () => {
         const adminUser = await createAdminUser();
 
         // Create categories
-        const categories = await createCategories();
+        const categories = await createCategories(adminUser);
 
         // Create medicines
         await createMedicines(categories, adminUser);
