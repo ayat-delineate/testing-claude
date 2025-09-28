@@ -4,7 +4,11 @@ import MedicineTable from "./MedicineTable";
 import LoadingSpinner from "./LoadingSpinner";
 import ErrorDisplay from "./ErrorDisplay";
 
-const MedicineDataProvider = ({ searchParams, onViewMedicine, onDataLoaded }) => {
+const MedicineDataProvider = ({
+  searchParams,
+  onViewMedicine,
+  onDataLoaded,
+}) => {
   const {
     data: medicinesResponse,
     isLoading,

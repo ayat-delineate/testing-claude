@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import Navbar from "../components/Navbar";
 import MedicineModal from "../components/MedicineModal";
@@ -23,9 +23,9 @@ const ShopPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleDataLoaded = (data) => {
+  const handleDataLoaded = useCallback((data) => {
     setPaginationData(data);
-  };
+  }, []);
 
   return (
     <>
@@ -36,7 +36,7 @@ const ShopPage = () => {
           content="Browse our wide selection of medicines and healthcare products"
         />
       </Helmet>
-
+      
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
