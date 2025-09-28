@@ -123,7 +123,7 @@ const generateMedicine = (categoryId, createdBy) => {
         discountedPrice: Math.round(discountedPrice * 100) / 100,
         stock: stock,
         stockStatus: stock > 10 ? 'in_stock' : stock > 0 ? 'low_stock' : 'out_of_stock',
-        massUnit: faker.helpers.arrayElement(['tablet', 'capsule', 'ml', 'mg', 'g', 'piece']),
+        massUnit: faker.helpers.arrayElement(['mg', 'g', 'ml', 'tablet', 'capsule', 'syrup', 'injection', 'cream', 'ointment']),
         image: null, // We'll leave this null for now
         images: [],
         prescriptionRequired: faker.datatype.boolean({ probability: 0.3 }),
