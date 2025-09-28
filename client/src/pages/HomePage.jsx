@@ -1,24 +1,27 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import BannerSlider from '../components/BannerSlider';
-import CategoryCards from '../components/CategoryCards';
-import DiscountProducts from '../components/DiscountProducts';
-import HealthTips from '../components/HealthTips';
-import TrustedPartners from '../components/TrustedPartners';
+import React from "react";
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import BannerSlider from "../components/BannerSlider";
+import CategoryCards from "../components/CategoryCards";
+import DiscountProducts from "../components/DiscountProducts";
+import HealthTips from "../components/HealthTips";
+import TrustedPartners from "../components/TrustedPartners";
 
 const HomePage = () => {
   return (
     <>
       <Helmet>
         <title>MedicineVendor - Your Trusted Medicine Partner</title>
-        <meta name="description" content="Buy medicines online from trusted vendors. Fast delivery, quality assurance, and expert advice." />
+        <meta
+          name="description"
+          content="Buy medicines online from trusted vendors. Fast delivery, quality assurance, and expert advice."
+        />
       </Helmet>
-      
+
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-        
+
         <main>
           {/* Banner Slider */}
           <BannerSlider />
@@ -42,7 +45,8 @@ const HomePage = () => {
                 Ready to Get Started?
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                Join thousands of satisfied customers who trust us with their healthcare needs
+                Join thousands of satisfied customers who trust us with their
+                healthcare needs
               </p>
               <Link
                 to="/shop"
@@ -66,30 +70,63 @@ const HomePage = () => {
                   <span className="text-xl font-bold">MedicineVendor</span>
                 </div>
                 <p className="text-gray-400">
-                  Your trusted partner for quality medicines and healthcare solutions.
+                  Your trusted partner for quality medicines and healthcare
+                  solutions.
                 </p>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
                 <ul className="space-y-2 text-gray-400">
-                  <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      About Us
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Contact
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Privacy Policy
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Terms of Service
+                    </a>
+                  </li>
                 </ul>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-4">Categories</h3>
                 <ul className="space-y-2 text-gray-400">
-                  <li><a href="#" className="hover:text-white transition-colors">Tablets</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Syrups</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Capsules</a></li>
-                  <li><a href="#" className="hover:text-white transition-colors">Injections</a></li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Tablets
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Syrups
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Capsules
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Injections
+                    </a>
+                  </li>
                 </ul>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
                 <ul className="space-y-2 text-gray-400">
@@ -99,7 +136,7 @@ const HomePage = () => {
                 </ul>
               </div>
             </div>
-            
+
             <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
               <p>&copy; 2024 MedicineVendor. All rights reserved.</p>
             </div>

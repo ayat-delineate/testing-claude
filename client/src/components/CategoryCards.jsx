@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { mockCategories } from '../data/mockData';
-import { ArrowRight, Pill, Droplets, Capsule, Syringe, Heart, Plus } from 'lucide-react';
+import { ArrowRight, Package, Droplets, Circle, Syringe, Heart, Plus } from 'lucide-react';
 
 const CategoryCards = () => {
   const getCategoryIcon = (categoryName) => {
     switch (categoryName.toLowerCase()) {
       case 'tablets':
-        return <Pill className="w-8 h-8" />;
+        return <Package className="w-8 h-8" />;
       case 'syrups':
         return <Droplets className="w-8 h-8" />;
       case 'capsules':
-        return <Capsule className="w-8 h-8" />;
+        return <Circle className="w-8 h-8" />;
       case 'injections':
         return <Syringe className="w-8 h-8" />;
       case 'creams & ointments':
@@ -19,7 +19,7 @@ const CategoryCards = () => {
       case 'supplements':
         return <Plus className="w-8 h-8" />;
       default:
-        return <Pill className="w-8 h-8" />;
+        return <Package className="w-8 h-8" />;
     }
   };
 
