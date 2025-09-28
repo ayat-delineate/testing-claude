@@ -146,8 +146,7 @@ const createAdminUser = async () => {
 
         if (!admin) {
             admin = new User({
-                firstName: 'Admin',
-                lastName: 'User',
+                name: 'Admin User',
                 email: 'admin@medicinevendor.com',
                 password: 'admin123', // This will be hashed by the model
                 role: 'admin',
@@ -235,31 +234,31 @@ const createMedicines = async (categories, adminUser) => {
 const seedDatabase = async () => {
     try {
         console.log('🌱 Starting database seeding...');
-        
+
         // Connect to database
         await connectDB();
-        
+
         // Create admin user
         const adminUser = await createAdminUser();
-        
+
         // Create categories
         const categories = await createCategories();
-        
+
         // Create medicines
         await createMedicines(categories, adminUser);
-        
+
         console.log('🎉 Database seeding completed successfully!');
-        
+
         // Get final counts
         const userCount = await User.countDocuments();
         const categoryCount = await Category.countDocuments();
         const medicineCount = await Medicine.countDocuments();
-        
+
         console.log('\n📊 Final Database Statistics:');
         console.log(`👥 Users: ${userCount}`);
         console.log(`📂 Categories: ${categoryCount}`);
         console.log(`💊 Medicines: ${medicineCount}`);
-        
+
     } catch (error) {
         console.error('❌ Seeding failed:', error);
         process.exit(1);
