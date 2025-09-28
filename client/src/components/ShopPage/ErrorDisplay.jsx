@@ -1,5 +1,5 @@
-import React from 'react';
-import { Package } from 'lucide-react';
+import React from "react";
+import { Package } from "lucide-react";
 
 const ErrorDisplay = ({ error, onRetry }) => {
   return (
@@ -11,7 +11,8 @@ const ErrorDisplay = ({ error, onRetry }) => {
             Error loading medicines
           </h3>
           <p className="text-gray-600 mb-4">
-            {error?.message || "Failed to load medicines. Please try again later."}
+            {error?.message ||
+              "Failed to load medicines. Please try again later."}
           </p>
           {onRetry && (
             <button

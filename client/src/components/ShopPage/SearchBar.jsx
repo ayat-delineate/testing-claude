@@ -1,18 +1,18 @@
-import React from 'react';
-import { Search, Filter, ArrowUpDown } from 'lucide-react';
+import React from "react";
+import { Search, Filter, ArrowUpDown } from "lucide-react";
 
-const SearchBar = ({ 
-  searchTerm, 
-  onSearchChange, 
-  sortBy, 
-  sortOrder, 
-  onSort 
+const SearchBar = ({
+  searchTerm,
+  onSearchChange,
+  sortBy,
+  sortOrder,
+  onSort,
 }) => {
   const handleSort = (field) => {
     if (sortBy === field) {
-      onSort(field, sortOrder === 'asc' ? 'desc' : 'asc');
+      onSort(field, sortOrder === "asc" ? "desc" : "asc");
     } else {
-      onSort(field, 'asc');
+      onSort(field, "asc");
     }
   };
 
@@ -29,27 +29,27 @@ const SearchBar = ({
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
-        
+
         <div className="flex items-center space-x-2">
           <Filter className="w-5 h-5 text-gray-500" />
           <span className="text-sm text-gray-600">Sort by:</span>
           <button
-            onClick={() => handleSort('name')}
+            onClick={() => handleSort("name")}
             className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              sortBy === 'name' 
-                ? 'bg-primary-100 text-primary-700' 
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              sortBy === "name"
+                ? "bg-primary-100 text-primary-700"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
             <span>Name</span>
             <ArrowUpDown className="w-4 h-4" />
           </button>
           <button
-            onClick={() => handleSort('price')}
+            onClick={() => handleSort("price")}
             className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              sortBy === 'price' 
-                ? 'bg-primary-100 text-primary-700' 
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              sortBy === "price"
+                ? "bg-primary-100 text-primary-700"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
             <span>Price</span>

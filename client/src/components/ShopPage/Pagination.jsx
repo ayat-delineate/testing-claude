@@ -20,7 +20,7 @@ const Pagination = ({
   const getVisiblePages = () => {
     const maxVisible = 5;
     const pages = [];
-    
+
     if (totalPages <= maxVisible) {
       // Show all pages if total is less than max visible
       for (let i = 1; i <= totalPages; i++) {
@@ -45,7 +45,7 @@ const Pagination = ({
         }
       }
     }
-    
+
     return pages;
   };
 

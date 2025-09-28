@@ -1,24 +1,21 @@
-import React from 'react';
-import { Eye, ShoppingCart } from 'lucide-react';
-import { useCart } from '../../context/CartContext';
-import Swal from 'sweetalert2';
+import React from "react";
+import { Eye, ShoppingCart } from "lucide-react";
+import { useCart } from "../../context/CartContext";
+import Swal from "sweetalert2";
 
-const MedicineTable = ({ 
-  medicines, 
-  onViewMedicine 
-}) => {
+const MedicineTable = ({ medicines, onViewMedicine }) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = (medicine) => {
     addToCart(medicine);
     Swal.fire({
-      icon: 'success',
-      title: 'Added to Cart!',
+      icon: "success",
+      title: "Added to Cart!",
       text: `${medicine.name} has been added to your cart`,
       timer: 2000,
       showConfirmButton: false,
       toast: true,
-      position: 'top-end',
+      position: "top-end",
     });
   };
 
@@ -30,7 +27,8 @@ const MedicineTable = ({
           No medicines found
         </h3>
         <p className="text-gray-600">
-          Try adjusting your search terms or filters to find what you're looking for.
+          Try adjusting your search terms or filters to find what you're looking
+          for.
         </p>
       </div>
     );
@@ -64,11 +62,14 @@ const MedicineTable = ({
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {medicines.map((medicine) => (
-              <tr key={medicine.id || medicine._id} className="hover:bg-gray-50">
+              <tr
+                key={medicine.id || medicine._id}
+                className="hover:bg-gray-50"
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <img
-                      src={medicine.image || '/api/placeholder/48/48'}
+                      src={medicine.image || "/api/placeholder/48/48"}
                       alt={medicine.name}
                       className="w-12 h-12 rounded-lg object-cover mr-4"
                     />
@@ -87,12 +88,12 @@ const MedicineTable = ({
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-                    {medicine.category?.name || medicine.category || 'Unknown'}
+                    {medicine.category?.name || medicine.category || "Unknown"}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-900">
-                    ${medicine.perUnitPrice?.toFixed(2) || '0.00'}
+                    ${medicine.perUnitPrice?.toFixed(2) || "0.00"}
                     {medicine.discountPercentage > 0 && (
                       <span className="ml-2 text-xs text-red-600">
                         -{medicine.discountPercentage}%
@@ -101,14 +102,18 @@ const MedicineTable = ({
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    medicine.stock > 10 
-                      ? 'bg-green-100 text-green-800' 
-                      : medicine.stock > 0 
-                      ? 'bg-yellow-100 text-yellow-800' 
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {medicine.stock > 0 ? `${medicine.stock} left` : 'Out of stock'}
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      medicine.stock > 10
+                        ? "bg-green-100 text-green-800"
+                        : medicine.stock > 0
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {medicine.stock > 0
+                      ? `${medicine.stock} left`
+                      : "Out of stock"}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
