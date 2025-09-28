@@ -1,21 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const {
-  register,
-  login,
-  logout,
-  getProfile,
-  updateProfile,
-  changePassword,
-  refreshToken
+    register,
+    login,
+    logout,
+    getProfile,
+    updateProfile,
+    changePassword,
+    refreshToken
 } = require('../controllers/authController');
 const { authenticateToken } = require('../middleware/auth');
 const {
-  validateRegister,
-  validateLogin,
-  validateUpdateProfile,
-  validateChangePassword,
-  validateRefreshToken
+    validateRegister,
+    validateLogin,
+    validateUpdateProfile,
+    validateChangePassword,
+    validateRefreshToken
 } = require('../middleware/validation');
 
 /**

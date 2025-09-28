@@ -49,12 +49,12 @@ const router = express.Router();
  *           $ref: '#/components/responses/ServerError'
  */
 router.get('/', (req, res) => {
-  // Your implementation here
-  res.status(200).json({
-    success: true,
-    message: 'Your endpoint - to be implemented',
-    data: []
-  });
+    // Your implementation here
+    res.status(200).json({
+        success: true,
+        message: 'Your endpoint - to be implemented',
+        data: []
+    });
 });
 
 /**
@@ -85,12 +85,12 @@ router.get('/', (req, res) => {
  *           $ref: '#/components/responses/ServerError'
  */
 router.get('/:id', (req, res) => {
-  // Your implementation here
-  res.status(200).json({
-    success: true,
-    message: 'Get item by ID - to be implemented',
-    data: null
-  });
+    // Your implementation here
+    res.status(200).json({
+        success: true,
+        message: 'Get item by ID - to be implemented',
+        data: null
+    });
 });
 
 /**
@@ -144,12 +144,12 @@ router.get('/:id', (req, res) => {
  *           $ref: '#/components/responses/ServerError'
  */
 router.post('/', (req, res) => {
-  // Your implementation here
-  res.status(201).json({
-    success: true,
-    message: 'Create item - to be implemented',
-    data: null
-  });
+    // Your implementation here
+    res.status(201).json({
+        success: true,
+        message: 'Create item - to be implemented',
+        data: null
+    });
 });
 
 module.exports = router;

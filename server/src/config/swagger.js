@@ -25,114 +25,114 @@ const options = {
                 description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Development server',
             },
         ],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-        cookieAuth: {
-          type: 'apiKey',
-          in: 'cookie',
-          name: 'token',
-        },
-      },
-      parameters: {
-        Id: {
-          name: 'id',
-          in: 'path',
-          required: true,
-          schema: {
-            type: 'string'
-          },
-          description: 'Resource ID'
-        },
-        Page: {
-          name: 'page',
-          in: 'query',
-          required: false,
-          schema: {
-            type: 'number',
-            minimum: 1,
-            default: 1
-          },
-          description: 'Page number'
-        },
-        Limit: {
-          name: 'limit',
-          in: 'query',
-          required: false,
-          schema: {
-            type: 'number',
-            minimum: 1,
-            maximum: 100,
-            default: 10
-          },
-          description: 'Number of items per page'
-        },
-        Search: {
-          name: 'search',
-          in: 'query',
-          required: false,
-          schema: {
-            type: 'string'
-          },
-          description: 'Search term'
-        }
-      },
-      responses: {
-        Unauthorized: {
-          description: 'Unauthorized - Invalid or missing token',
-          content: {
-            'application/json': {
-              schema: {
-                $ref: '#/components/schemas/Error'
-              }
-            }
-          }
-        },
-        Forbidden: {
-          description: 'Forbidden - Insufficient permissions',
-          content: {
-            'application/json': {
-              schema: {
-                $ref: '#/components/schemas/Error'
-              }
-            }
-          }
-        },
-        NotFound: {
-          description: 'Resource not found',
-          content: {
-            'application/json': {
-              schema: {
-                $ref: '#/components/schemas/Error'
-              }
-            }
-          }
-        },
-        ValidationError: {
-          description: 'Validation error',
-          content: {
-            'application/json': {
-              schema: {
-                $ref: '#/components/schemas/Error'
-              }
-            }
-          }
-        },
-        ServerError: {
-          description: 'Internal server error',
-          content: {
-            'application/json': {
-              schema: {
-                $ref: '#/components/schemas/Error'
-              }
-            }
-          }
-        }
-      },
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+                cookieAuth: {
+                    type: 'apiKey',
+                    in: 'cookie',
+                    name: 'token',
+                },
+            },
+            parameters: {
+                Id: {
+                    name: 'id',
+                    in: 'path',
+                    required: true,
+                    schema: {
+                        type: 'string'
+                    },
+                    description: 'Resource ID'
+                },
+                Page: {
+                    name: 'page',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        minimum: 1,
+                        default: 1
+                    },
+                    description: 'Page number'
+                },
+                Limit: {
+                    name: 'limit',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'number',
+                        minimum: 1,
+                        maximum: 100,
+                        default: 10
+                    },
+                    description: 'Number of items per page'
+                },
+                Search: {
+                    name: 'search',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'string'
+                    },
+                    description: 'Search term'
+                }
+            },
+            responses: {
+                Unauthorized: {
+                    description: 'Unauthorized - Invalid or missing token',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/Error'
+                            }
+                        }
+                    }
+                },
+                Forbidden: {
+                    description: 'Forbidden - Insufficient permissions',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/Error'
+                            }
+                        }
+                    }
+                },
+                NotFound: {
+                    description: 'Resource not found',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/Error'
+                            }
+                        }
+                    }
+                },
+                ValidationError: {
+                    description: 'Validation error',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/Error'
+                            }
+                        }
+                    }
+                },
+                ServerError: {
+                    description: 'Internal server error',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/Error'
+                            }
+                        }
+                    }
+                }
+            },
             schemas: {
                 Error: {
                     type: 'object',

@@ -78,18 +78,18 @@ const { commonResponses, commonParams, security } = require('../utils/swaggerHel
  *           $ref: '#/components/responses/ServerError'
  */
 router.get('/', (req, res) => {
-  // TODO: Implement get medicines logic
-  res.status(200).json({
-    success: true,
-    message: 'Get medicines endpoint - to be implemented',
-    data: [],
-    pagination: {
-      page: 1,
-      limit: 10,
-      total: 0,
-      pages: 0
-    }
-  });
+    // TODO: Implement get medicines logic
+    res.status(200).json({
+        success: true,
+        message: 'Get medicines endpoint - to be implemented',
+        data: [],
+        pagination: {
+            page: 1,
+            limit: 10,
+            total: 0,
+            pages: 0
+        }
+    });
 });
 
 /**
@@ -120,12 +120,12 @@ router.get('/', (req, res) => {
  *           $ref: '#/components/responses/ServerError'
  */
 router.get('/:id', (req, res) => {
-  // TODO: Implement get medicine by ID logic
-  res.status(200).json({
-    success: true,
-    message: 'Get medicine by ID endpoint - to be implemented',
-    data: null
-  });
+    // TODO: Implement get medicine by ID logic
+    res.status(200).json({
+        success: true,
+        message: 'Get medicine by ID endpoint - to be implemented',
+        data: null
+    });
 });
 
 /**
@@ -203,12 +203,12 @@ router.get('/:id', (req, res) => {
  *           $ref: '#/components/responses/ServerError'
  */
 router.post('/', (req, res) => {
-  // TODO: Implement create medicine logic
-  res.status(201).json({
-    success: true,
-    message: 'Create medicine endpoint - to be implemented',
-    data: null
-  });
+    // TODO: Implement create medicine logic
+    res.status(201).json({
+        success: true,
+        message: 'Create medicine endpoint - to be implemented',
+        data: null
+    });
 });
 
 module.exports = router;

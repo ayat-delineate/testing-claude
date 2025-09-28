@@ -37,12 +37,12 @@ const router = express.Router();
  *                   example: development
  */
 router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'MedicineVendor API is running',
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
-  });
+    res.status(200).json({
+        success: true,
+        message: 'MedicineVendor API is running',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
+    });
 });
 
 module.exports = router;

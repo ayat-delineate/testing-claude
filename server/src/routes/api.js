@@ -39,16 +39,16 @@ const router = express.Router();
  *                       example: /api-docs
  */
 router.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Welcome to MedicineVendor API',
-    version: '1.0.0',
-    endpoints: {
-      health: '/health',
-      api: '/api',
-      documentation: '/api-docs',
-    },
-  });
+    res.status(200).json({
+        success: true,
+        message: 'Welcome to MedicineVendor API',
+        version: '1.0.0',
+        endpoints: {
+            health: '/health',
+            api: '/api',
+            documentation: '/api-docs',
+        },
+    });
 });
 
 module.exports = router;

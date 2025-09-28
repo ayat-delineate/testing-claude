@@ -96,12 +96,14 @@ app.use('/api/your-feature', yourFeatureRoutes);
 ## 🛠 **Available Helpers**
 
 ### **Common Parameters**
+
 - `$ref: '#/components/parameters/Id'` - Resource ID
 - `$ref: '#/components/parameters/Page'` - Page number
 - `$ref: '#/components/parameters/Limit'` - Items per page
 - `$ref: '#/components/parameters/Search'` - Search term
 
 ### **Common Responses**
+
 - `$ref: '#/components/responses/Unauthorized'` - 401
 - `$ref: '#/components/responses/Forbidden'` - 403
 - `$ref: '#/components/responses/NotFound'` - 404
@@ -109,6 +111,7 @@ app.use('/api/your-feature', yourFeatureRoutes);
 - `$ref: '#/components/responses/ServerError'` - 500
 
 ### **Security**
+
 ```javascript
 security:
   - bearerAuth: []    # JWT token required
@@ -141,6 +144,7 @@ YourSchema: {
 ## 🎨 **Best Practices**
 
 ### ✅ **Do:**
+
 - Use descriptive summaries and descriptions
 - Include all required parameters
 - Document all possible responses
@@ -149,6 +153,7 @@ YourSchema: {
 - Group related endpoints with tags
 
 ### ❌ **Don't:**
+
 - Skip response documentation
 - Use vague descriptions
 - Forget to include error responses
@@ -158,6 +163,7 @@ YourSchema: {
 ## 🔧 **Advanced Features**
 
 ### **Conditional Responses**
+
 ```javascript
 responses:
   200:
@@ -171,6 +177,7 @@ responses:
 ```
 
 ### **File Upload**
+
 ```javascript
 requestBody:
   required: true
@@ -187,6 +194,7 @@ requestBody:
 ```
 
 ### **Array Parameters**
+
 ```javascript
 parameters:
   - name: categories
