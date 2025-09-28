@@ -71,7 +71,7 @@ const ShopPage = () => {
             content="Browse our wide selection of medicines and healthcare products"
           />
         </Helmet>
-          <Navbar />
+        <Navbar />
         <ErrorDisplay error={error} onRetry={refetch} />
       </>
     );
@@ -86,7 +86,7 @@ const ShopPage = () => {
           content="Browse our wide selection of medicines and healthcare products"
         />
       </Helmet>
-      
+
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -100,29 +100,29 @@ const ShopPage = () => {
             </p>
           </div>
 
-          <Suspense fallback={<LoadingSpinner />}>
-            <SearchBar
-              searchTerm={params.search}
-              onSearchChange={setSearch}
-              sortBy={params.sortBy}
-              sortOrder={params.sortOrder}
-              onSort={setSort}
-            />
+          <SearchBar
+            searchTerm={params.search}
+            onSearchChange={setSearch}
+            sortBy={params.sortBy}
+            sortOrder={params.sortOrder}
+            onSort={setSort}
+          />
 
+          <Suspense fallback={<LoadingSpinner />}>
             <MedicineTable
               medicines={medicines}
               onViewMedicine={handleViewMedicine}
             />
-
-            <Pagination
-              currentPage={params.page}
-              totalPages={totalPages}
-              onPageChange={setPage}
-              startIndex={startIndex}
-              endIndex={endIndex}
-              totalItems={totalItems}
-            />
           </Suspense>
+
+          <Pagination
+            currentPage={params.page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            totalItems={totalItems}
+          />
         </main>
 
         {/* Medicine Modal */}
