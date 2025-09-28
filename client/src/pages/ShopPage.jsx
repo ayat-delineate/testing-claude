@@ -28,18 +28,25 @@ const ShopPage = () => {
   const itemsPerPage = 10;
 
   // Use real API call with TanStack Query
-  const { data: medicinesResponse, isLoading, error } = useMedicines({
+  const {
+    data: medicinesResponse,
+    isLoading,
+    error,
+  } = useMedicines({
     page: currentPage,
     limit: itemsPerPage,
     search: searchTerm,
     sortBy,
-    sortOrder
+    sortOrder,
   });
+
+  // Debug: Log the response to see the structure
+  console.log('Medicines Response:', medicinesResponse);
 
   // Filter and sort medicines
   const filteredAndSortedMedicines = useMemo(() => {
-    const medicines = medicinesResponse?.data?.medicines || [];
-    
+    const medicines = medicinesResponse?.data?.data?.medicines || [];
+
     let filtered = medicines.filter(
       (medicine) =>
         medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -160,7 +167,8 @@ const ShopPage = () => {
                 Error loading medicines
               </h3>
               <p className="text-gray-600">
-                {error.message || "Failed to load medicines. Please try again later."}
+                {error.message ||
+                  "Failed to load medicines. Please try again later."}
               </p>
             </div>
           </main>
