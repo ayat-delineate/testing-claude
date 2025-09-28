@@ -18,8 +18,14 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Check if user is logged in from localStorage
     const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    if (savedUser && savedUser !== "undefined" && savedUser !== "null") {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        console.error("Error parsing user data from localStorage:", error);
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+      }
     }
     setLoading(false);
   }, []);
@@ -29,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await authAPI.login({ email, password });
-      const { token, user } = response.data;
+      const { token, user } = response.data.data || response.data;
 
       setUser(user);
       localStorage.setItem("token", token);
@@ -49,7 +55,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await authAPI.register(userData);
-      const { token, user } = response.data;
+      const { token, user } = response.data.data || response.data;
 
       setUser(user);
       localStorage.setItem("token", token);
@@ -76,7 +82,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await authAPI.updateProfile(updatedData);
-      const updatedUser = response.data;
+      const updatedUser = response.data.data || response.data;
 
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
