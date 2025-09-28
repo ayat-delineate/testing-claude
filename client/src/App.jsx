@@ -66,7 +66,7 @@ function App() {
                     }
                   />
                   <Route
-                    path="/invoice/:transactionId"
+                    path="/invoice/:paymentId"
                     element={
                       <ProtectedRoute>
                         <InvoicePage />
