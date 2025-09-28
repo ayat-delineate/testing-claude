@@ -62,3 +62,12 @@ export const useCategories = () => {
         staleTime: 10 * 60 * 1000, // 10 minutes
     });
 };
+
+export const useMedicinesByCategory = (categoryId, params = {}) => {
+    return useQuery({
+        queryKey: ['medicines', 'category', categoryId, params],
+        queryFn: () => medicineAPI.getMedicines({ ...params, category: categoryId }),
+        enabled: !!categoryId,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+    });
+};
