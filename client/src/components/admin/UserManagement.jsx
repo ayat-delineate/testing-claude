@@ -1,111 +1,117 @@
-import React, { useState } from 'react';
-import { 
-  Search, 
-  Filter, 
-  MoreVertical, 
-  Edit, 
-  Trash2, 
+import React, { useState } from "react";
+import {
+  Search,
+  Filter,
+  MoreVertical,
+  Edit,
+  Trash2,
   Eye,
   UserCheck,
   UserX,
   Mail,
   Phone,
-  Calendar
-} from 'lucide-react';
-import Swal from 'sweetalert2';
+  Calendar,
+} from "lucide-react";
+import Swal from "sweetalert2";
 
 const UserManagement = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterRole, setFilterRole] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterRole, setFilterRole] = useState("all");
   const [selectedUser, setSelectedUser] = useState(null);
 
   // Mock user data
   const users = [
     {
       id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      role: 'user',
-      status: 'active',
-      joinDate: '2024-01-15',
+      name: "John Doe",
+      email: "john.doe@example.com",
+      role: "user",
+      status: "active",
+      joinDate: "2024-01-15",
       totalOrders: 5,
-      totalSpent: '$234.50',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
+      totalSpent: "$234.50",
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
     },
     {
       id: 2,
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      role: 'seller',
-      status: 'active',
-      joinDate: '2024-01-10',
+      name: "Jane Smith",
+      email: "jane.smith@example.com",
+      role: "seller",
+      status: "active",
+      joinDate: "2024-01-10",
       totalOrders: 0,
-      totalSpent: '$0.00',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
+      totalSpent: "$0.00",
+      avatar:
+        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
     },
     {
       id: 3,
-      name: 'Mike Johnson',
-      email: 'mike.johnson@example.com',
-      role: 'admin',
-      status: 'active',
-      joinDate: '2024-01-05',
+      name: "Mike Johnson",
+      email: "mike.johnson@example.com",
+      role: "admin",
+      status: "active",
+      joinDate: "2024-01-05",
       totalOrders: 0,
-      totalSpent: '$0.00',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face'
+      totalSpent: "$0.00",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
     },
     {
       id: 4,
-      name: 'Sarah Wilson',
-      email: 'sarah.wilson@example.com',
-      role: 'user',
-      status: 'inactive',
-      joinDate: '2024-01-12',
+      name: "Sarah Wilson",
+      email: "sarah.wilson@example.com",
+      role: "user",
+      status: "inactive",
+      joinDate: "2024-01-12",
       totalOrders: 2,
-      totalSpent: '$89.99',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face'
+      totalSpent: "$89.99",
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
     },
     {
       id: 5,
-      name: 'David Brown',
-      email: 'david.brown@example.com',
-      role: 'seller',
-      status: 'active',
-      joinDate: '2024-01-08',
+      name: "David Brown",
+      email: "david.brown@example.com",
+      role: "seller",
+      status: "active",
+      joinDate: "2024-01-08",
       totalOrders: 0,
-      totalSpent: '$0.00',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face'
-    }
+      totalSpent: "$0.00",
+      avatar:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+    },
   ];
 
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesRole = filterRole === 'all' || user.role === filterRole;
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch =
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = filterRole === "all" || user.role === filterRole;
     return matchesSearch && matchesRole;
   });
 
   const getRoleColor = (role) => {
     switch (role) {
-      case 'admin':
-        return 'bg-red-100 text-red-800';
-      case 'seller':
-        return 'bg-blue-100 text-blue-800';
-      case 'user':
-        return 'bg-green-100 text-green-800';
+      case "admin":
+        return "bg-red-100 text-red-800";
+      case "seller":
+        return "bg-blue-100 text-blue-800";
+      case "user":
+        return "bg-green-100 text-green-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'active':
-        return 'bg-green-100 text-green-800';
-      case 'inactive':
-        return 'bg-gray-100 text-gray-800';
+      case "active":
+        return "bg-green-100 text-green-800";
+      case "inactive":
+        return "bg-gray-100 text-gray-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -113,51 +119,51 @@ const UserManagement = () => {
     setSelectedUser(user);
     // In real app, this would open an edit modal
     Swal.fire({
-      title: 'Edit User',
+      title: "Edit User",
       text: `Edit user: ${user.name}`,
-      icon: 'info',
-      confirmButtonText: 'OK'
+      icon: "info",
+      confirmButtonText: "OK",
     });
   };
 
   const handleDeleteUser = (user) => {
     Swal.fire({
-      title: 'Delete User',
+      title: "Delete User",
       text: `Are you sure you want to delete ${user.name}?`,
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#ef4444',
-      cancelButtonColor: '#6b7280',
-      confirmButtonText: 'Yes, delete!'
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, delete!",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: 'Deleted!',
-          text: 'User has been deleted.',
-          icon: 'success',
+          title: "Deleted!",
+          text: "User has been deleted.",
+          icon: "success",
           timer: 1500,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
       }
     });
   };
 
   const handleToggleStatus = (user) => {
-    const newStatus = user.status === 'active' ? 'inactive' : 'active';
+    const newStatus = user.status === "active" ? "inactive" : "active";
     Swal.fire({
-      title: 'Update Status',
+      title: "Update Status",
       text: `Change ${user.name}'s status to ${newStatus}?`,
-      icon: 'question',
+      icon: "question",
       showCancelButton: true,
-      confirmButtonText: 'Yes, update!'
+      confirmButtonText: "Yes, update!",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: 'Updated!',
+          title: "Updated!",
           text: `User status changed to ${newStatus}.`,
-          icon: 'success',
+          icon: "success",
           timer: 1500,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
       }
     });
@@ -169,7 +175,9 @@ const UserManagement = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">User Management</h2>
-          <p className="text-gray-600">Manage users, sellers, and administrators</p>
+          <p className="text-gray-600">
+            Manage users, sellers, and administrators
+          </p>
         </div>
         <button className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
           Add New User
@@ -189,7 +197,7 @@ const UserManagement = () => {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <Filter className="w-5 h-5 text-gray-500" />
             <select
@@ -246,18 +254,30 @@ const UserManagement = () => {
                         className="w-10 h-10 rounded-full object-cover mr-4"
                       />
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                        <div className="text-sm text-gray-500">{user.email}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {user.name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {user.email}
+                        </div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(user.role)}`}>
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleColor(
+                        user.role
+                      )}`}
+                    >
                       {user.role}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(user.status)}`}>
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
+                        user.status
+                      )}`}
+                    >
                       {user.status}
                     </span>
                   </td>
@@ -281,10 +301,20 @@ const UserManagement = () => {
                       </button>
                       <button
                         onClick={() => handleToggleStatus(user)}
-                        className={`p-1 rounded ${user.status === 'active' ? 'text-yellow-600 hover:text-yellow-900' : 'text-green-600 hover:text-green-900'}`}
-                        title={user.status === 'active' ? 'Deactivate' : 'Activate'}
+                        className={`p-1 rounded ${
+                          user.status === "active"
+                            ? "text-yellow-600 hover:text-yellow-900"
+                            : "text-green-600 hover:text-green-900"
+                        }`}
+                        title={
+                          user.status === "active" ? "Deactivate" : "Activate"
+                        }
                       >
-                        {user.status === 'active' ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
+                        {user.status === "active" ? (
+                          <UserX className="w-4 h-4" />
+                        ) : (
+                          <UserCheck className="w-4 h-4" />
+                        )}
                       </button>
                       <button
                         onClick={() => handleDeleteUser(user)}
@@ -311,7 +341,9 @@ const UserManagement = () => {
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-500">Total Users</p>
-              <p className="text-2xl font-semibold text-gray-900">{users.length}</p>
+              <p className="text-2xl font-semibold text-gray-900">
+                {users.length}
+              </p>
             </div>
           </div>
         </div>
@@ -324,7 +356,7 @@ const UserManagement = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-500">Active Users</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {users.filter(u => u.status === 'active').length}
+                {users.filter((u) => u.status === "active").length}
               </p>
             </div>
           </div>
@@ -338,7 +370,7 @@ const UserManagement = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-500">Sellers</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {users.filter(u => u.role === 'seller').length}
+                {users.filter((u) => u.role === "seller").length}
               </p>
             </div>
           </div>
@@ -352,7 +384,7 @@ const UserManagement = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-500">Admins</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {users.filter(u => u.role === 'admin').length}
+                {users.filter((u) => u.role === "admin").length}
               </p>
             </div>
           </div>
