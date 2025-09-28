@@ -40,8 +40,7 @@ const ShopPage = () => {
     sortOrder,
   });
 
-  // Debug: Log the response to see the structure
-  console.log('Medicines Response:', medicinesResponse);
+  // Medicines data extracted from API response
 
   // Filter and sort medicines
   const filteredAndSortedMedicines = useMemo(() => {
@@ -52,7 +51,7 @@ const ShopPage = () => {
         medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         medicine.genericName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         medicine.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        medicine.category.toLowerCase().includes(searchTerm.toLowerCase())
+        (medicine.category?.name || medicine.category || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     // Sort medicines
@@ -303,7 +302,7 @@ const ShopPage = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
-                          {medicine.category}
+                          {medicine.category?.name || medicine.category || 'Unknown'}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
