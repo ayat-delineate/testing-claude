@@ -158,6 +158,7 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [shippingInfo, setShippingInfo] = useState({});
+  const [isPaymentCompleted, setIsPaymentCompleted] = useState(false);
 
   const {
     register,
@@ -172,12 +173,14 @@ const CheckoutPage = () => {
   const finalTotal = totalAmount + shippingCost + taxAmount;
 
   useEffect(() => {
-    if (cartItems.length === 0) {
+    if (cartItems.length === 0 && !isPaymentCompleted) {
       navigate("/cart");
     }
-  }, [cartItems, navigate]);
+  }, [cartItems, navigate, isPaymentCompleted]);
 
   const onPaymentSuccess = (paymentIntentId) => {
+    // Set payment completed flag before clearing cart
+    setIsPaymentCompleted(true);
     // Clear cart and redirect to invoice
     clearCart();
     navigate(`/invoice/${paymentIntentId}`);
@@ -188,7 +191,7 @@ const CheckoutPage = () => {
     setCurrentStep(2);
   };
 
-  if (cartItems.length === 0) {
+  if (cartItems.length === 0 && !isPaymentCompleted) {
     return (
       <>
         <Helmet>
