@@ -106,7 +106,7 @@ const CategoryDetailsPage = () => {
             content={`Browse ${formattedCategoryName} medicines`}
           />
         </Helmet>
-          <Navbar />
+        <Navbar />
         <LoadingSpinner />
       </>
     );
@@ -118,7 +118,7 @@ const CategoryDetailsPage = () => {
         <Helmet>
           <title>Error - MedicineVendor</title>
         </Helmet>
-          <Navbar />
+        <Navbar />
         <ErrorDisplay error={error} onRetry={refetch} />
       </>
     );

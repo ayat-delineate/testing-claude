@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { Helmet } from 'react-helmet-async';
-import { useAuth } from '../context/AuthContext';
-import { Eye, EyeOff, Upload, Github, Chrome } from 'lucide-react';
-import Swal from 'sweetalert2';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet-async";
+import { useAuth } from "../context/AuthContext";
+import { Eye, EyeOff, Upload, Github, Chrome } from "lucide-react";
+import Swal from "sweetalert2";
 
 const SignupPage = () => {
   const { signup, loading } = useAuth();
@@ -17,10 +17,10 @@ const SignupPage = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
-  const password = watch('password');
+  const password = watch("password");
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -28,34 +28,34 @@ const SignupPage = () => {
       // Prepare user data (photo will be handled separately if needed)
       const userData = {
         ...data,
-        avatar: selectedPhoto ? URL.createObjectURL(selectedPhoto) : null
+        avatar: selectedPhoto ? URL.createObjectURL(selectedPhoto) : null,
       };
 
       const result = await signup(userData);
-      
+
       if (result.success) {
         await Swal.fire({
-          icon: 'success',
-          title: 'Registration Successful!',
+          icon: "success",
+          title: "Registration Successful!",
           text: `Welcome to MedicineVendor, ${result.user.name}!`,
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
-        navigate('/');
+        navigate("/");
       } else {
         await Swal.fire({
-          icon: 'error',
-          title: 'Registration Failed',
+          icon: "error",
+          title: "Registration Failed",
           text: result.error,
-          confirmButtonText: 'Try Again'
+          confirmButtonText: "Try Again",
         });
       }
     } catch (err) {
       await Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'An unexpected error occurred. Please try again.',
-        confirmButtonText: 'OK'
+        icon: "error",
+        title: "Error",
+        text: "An unexpected error occurred. Please try again.",
+        confirmButtonText: "OK",
       });
     } finally {
       setIsLoading(false);
@@ -64,10 +64,10 @@ const SignupPage = () => {
 
   const handleSocialSignup = async (provider) => {
     await Swal.fire({
-      icon: 'info',
-      title: 'Coming Soon',
+      icon: "info",
+      title: "Coming Soon",
       text: `${provider} signup is not implemented yet. Please use the regular signup form.`,
-      confirmButtonText: 'OK'
+      confirmButtonText: "OK",
     });
   };
 
@@ -84,7 +84,7 @@ const SignupPage = () => {
         <title>Sign Up - MedicineVendor</title>
         <meta name="description" content="Create your MedicineVendor account" />
       </Helmet>
-      
+
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
@@ -95,7 +95,7 @@ const SignupPage = () => {
               Create your account
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-              Or{' '}
+              Or{" "}
               <Link
                 to="/login"
                 className="font-medium text-primary-600 hover:text-primary-500"
@@ -104,53 +104,66 @@ const SignupPage = () => {
               </Link>
             </p>
           </div>
-          
+
           <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Full Name
                 </label>
                 <input
-                  {...register('name', {
-                    required: 'Full name is required',
+                  {...register("name", {
+                    required: "Full name is required",
                     minLength: {
                       value: 2,
-                      message: 'Name must be at least 2 characters'
-                    }
+                      message: "Name must be at least 2 characters",
+                    },
                   })}
                   type="text"
                   className="input-field mt-1"
                   placeholder="Enter your full name"
                 />
                 {errors.name && (
-                  <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.name.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Email address
                 </label>
                 <input
-                  {...register('email', {
-                    required: 'Email is required',
+                  {...register("email", {
+                    required: "Email is required",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'Invalid email address'
-                    }
+                      message: "Invalid email address",
+                    },
                   })}
                   type="email"
                   className="input-field mt-1"
                   placeholder="Enter your email"
                 />
                 {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="photo"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Profile Photo
                 </label>
                 <div className="mt-1 flex items-center space-x-4">
@@ -182,19 +195,22 @@ const SignupPage = () => {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Password
                 </label>
                 <div className="relative mt-1">
                   <input
-                    {...register('password', {
-                      required: 'Password is required',
+                    {...register("password", {
+                      required: "Password is required",
                       minLength: {
                         value: 6,
-                        message: 'Password must be at least 6 characters'
-                      }
+                        message: "Password must be at least 6 characters",
+                      },
                     })}
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     className="input-field pr-10"
                     placeholder="Enter your password"
                   />
@@ -211,34 +227,45 @@ const SignupPage = () => {
                   </button>
                 </div>
                 {errors.password && (
-                  <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Confirm Password
                 </label>
                 <input
-                  {...register('confirmPassword', {
-                    required: 'Please confirm your password',
-                    validate: value => value === password || 'Passwords do not match'
+                  {...register("confirmPassword", {
+                    required: "Please confirm your password",
+                    validate: (value) =>
+                      value === password || "Passwords do not match",
                   })}
                   type="password"
                   className="input-field mt-1"
                   placeholder="Confirm your password"
                 />
                 {errors.confirmPassword && (
-                  <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.confirmPassword.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="role"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Role
                 </label>
                 <select
-                  {...register('role', { required: 'Please select a role' })}
+                  {...register("role", { required: "Please select a role" })}
                   className="input-field mt-1"
                 >
                   <option value="">Select your role</option>
@@ -246,7 +273,9 @@ const SignupPage = () => {
                   <option value="seller">Seller</option>
                 </select>
                 {errors.role && (
-                  <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.role.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -263,7 +292,7 @@ const SignupPage = () => {
                     Creating account...
                   </div>
                 ) : (
-                  'Create account'
+                  "Create account"
                 )}
               </button>
             </div>
@@ -274,14 +303,16 @@ const SignupPage = () => {
                   <div className="w-full border-t border-gray-300" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-gray-50 text-gray-500">Or continue with</span>
+                  <span className="px-2 bg-gray-50 text-gray-500">
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <button
                   type="button"
-                  onClick={() => handleSocialSignup('Google')}
+                  onClick={() => handleSocialSignup("Google")}
                   disabled={isLoading}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                 >
@@ -291,7 +322,7 @@ const SignupPage = () => {
 
                 <button
                   type="button"
-                  onClick={() => handleSocialSignup('GitHub')}
+                  onClick={() => handleSocialSignup("GitHub")}
                   disabled={isLoading}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                 >
