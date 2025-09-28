@@ -7,6 +7,13 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const connectDB = require('./config/database');
+const { swaggerUi, specs, swaggerOptions } = require('./config/swagger');
+
+// Import routes
+const healthRoutes = require('./routes/health');
+const apiRoutes = require('./routes/api');
+const authRoutes = require('./routes/auth');
+const medicineRoutes = require('./routes/medicines');
 
 const app = express();
 
@@ -16,20 +23,24 @@ connectDB();
 // Security middleware
 app.use(helmet());
 
-// Rate limiting
+// Rate limiting (more lenient for development)
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: process.env.NODE_ENV === 'development' ? 1000 : 100, // More lenient in development
     message: {
         success: false,
         message: 'Too many requests from this IP, please try again later.',
     },
+    standardHeaders: true,
+    legacyHeaders: false,
 });
 app.use('/api/', limiter);
 
 // CORS configuration
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: process.env.NODE_ENV === 'development'
+        ? true // Allow all origins in development
+        : process.env.CLIENT_URL || 'http://localhost:5173',
     credentials: true,
 }));
 
@@ -47,35 +58,29 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: 'MedicineVendor API is running',
-        timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV || 'development',
+// Debug middleware (development only)
+if (process.env.NODE_ENV === 'development') {
+    app.use((req, res, next) => {
+        console.log(`${req.method} ${req.url} - ${req.ip}`);
+        next();
     });
-});
+}
 
-// Basic API route
-app.get('/api', (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: 'Welcome to MedicineVendor API',
-        version: '1.0.0',
-        endpoints: {
-            health: '/health',
-            api: '/api',
-        },
-    });
-});
+// Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, swaggerOptions));
+
+// Routes
+app.use('/health', healthRoutes);
+app.use('/api', apiRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/medicines', medicineRoutes);
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route ${req.originalUrl} not found`,
-  });
+    res.status(404).json({
+        success: false,
+        message: `Route ${req.originalUrl} not found`,
+    });
 });
 
 // Error handler
@@ -88,7 +93,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
